@@ -12,7 +12,7 @@ class Router {
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => DashboardScreen());
+        return MaterialPageRoute(settings: routeSettings, builder: (_) => DashboardScreen());
       case welcomeRoute:
         return MaterialPageRoute(builder: (_) => WelcomeScreen());
       case destinationDetailRoute:

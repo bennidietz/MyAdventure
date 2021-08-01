@@ -9,6 +9,7 @@ class MyJourney {
   final String? date;
   final double latitude;
   final double longitude;
+  final String? relatedUserEmail;
 
   LatLng get latlng => LatLng(latitude, longitude);
 
@@ -20,6 +21,7 @@ class MyJourney {
     this.date,
     required this.latitude,
     required this.longitude,
+    this.relatedUserEmail
   });
 
   MyJourney.fromJson(Map<String, Object?> json, String id)
@@ -27,10 +29,11 @@ class MyJourney {
     id: id,
     title: json['title']! as String,
     description: json['description']! as String,
-    image_url: json['image_url']! as String,
+    image_url: json['image_url'] as String?,
     date: json['date'] as String?,
     latitude: json['latitude']! as double,
     longitude: json['longitude']! as double,
+    relatedUserEmail: json['relatedUserEmail'] as String?,
   );
 
   Map<String, Object?> toJson() {
@@ -42,6 +45,7 @@ class MyJourney {
       'date': date,
       'latitude': latitude,
       'longitude': longitude,
+      'relatedUserEmail': relatedUserEmail,
     };
   }
 

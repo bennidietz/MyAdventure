@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music_player_app/network/model/formmodel/journey_form_model.dart';
 import 'package:flutter_music_player_app/network/model/journey.dart';
@@ -10,9 +11,10 @@ import '../location_selector.dart';
 import '../show_snackbar.dart';
 
 class AddJourneyDialog extends StatefulWidget {
-  AddJourneyDialog({Key? key, required this.callback}) : super(key: key);
+  AddJourneyDialog({Key? key, required this.callback, required this.relatedUser}) : super(key: key);
 
   final Function callback;
+  final User relatedUser;
 
   @override
   _AddJourneyDialogState createState() => _AddJourneyDialogState();
@@ -176,9 +178,11 @@ class _AddJourneyDialogState extends State<AddJourneyDialog> {
                                     title: state.title!,
                                     description: state.description!,
                                     image_url: state.imageURL,
-                                    date: state.date,
+                                    date: state.date ?? '',
                                     latitude: state.latitude!,
-                                    longitude: state.longitude!));
+                                    longitude: state.longitude!,
+                                    relatedUserEmail: widget.relatedUser.email,
+                                ));
                               });
                               widget.callback.call();
                               Navigator.pop(context);

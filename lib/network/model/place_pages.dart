@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music_player_app/network/model/journey.dart';
 import 'package:flutter_music_player_app/presentation/miniview/mini_map.dart';
@@ -34,7 +35,7 @@ List<TabLayout> SELECT_LOCATION_PAGES(Function(LatLng) latlngCallback) => [
   TabLayout(screen: Text("Hallo"), title: "Adresse"),
 ];
 
-List<TabLayout> DIFFERENT_JOUNEY_TYPES = [
-  TabLayout(screen: PlannedJourneyScreen(), title: "Geplante Reise"),
-  TabLayout(screen: DreamTravelsScreen(), title: "TRÄUME"),
+List<TabLayout> DIFFERENT_JOUNEY_TYPES(User user) => [
+  TabLayout(screen: PlannedJourneyScreen(user: user,), title: "Geplante Reise"),
+  TabLayout(screen: DreamTravelsScreen(user: user,), title: "TRÄUME"),
 ];

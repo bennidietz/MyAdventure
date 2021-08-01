@@ -29,7 +29,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> with SingleTicker
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: DIFFERENT_JOUNEY_TYPES.length, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override

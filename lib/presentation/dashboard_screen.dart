@@ -1,11 +1,14 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music_player_app/network/model/place_pages.dart';
 import 'package:flutter_music_player_app/presentation/widgets/dialogs/add_journey_dialog.dart';
 import 'package:flutter_music_player_app/presentation/widgets/icon_fab.dart';
+import 'package:flutter_music_player_app/services/authentification_service.dart';
 import 'package:flutter_music_player_app/storage/local_storage.dart';
 import 'package:flutter_music_player_app/storage/storage_keys.dart';
+import 'package:provider/provider.dart';
 
 import '../SizeConfig.dart';
 
@@ -25,11 +28,14 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: DIFFERENT_JOUNEY_TYPES.length, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final user = ModalRoute.of(context)!.settings.arguments as User;
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +45,11 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
             child: Row(
               children: <Widget>[
                 Spacer(),
-                Icon(Icons.more_vert, color: Colors.black,),
+                IconButton(icon: Icon(Icons.more_vert, color: Colors.black,),
+                  onPressed: () {
+                    context.read<AuthentificationService>().signOut();
+                  },
+                ),
               ],
             ),
           ),
@@ -67,7 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                 unselectedLabelColor: Colors.grey,
                 isScrollable: true,
                 tabs: <Widget>[
-                  ...DIFFERENT_JOUNEY_TYPES.map((type) =>
+                  ...DIFFERENT_JOUNEY_TYPES(user).map((type) =>
                       Tab(
                         child: Text(type.title.toUpperCase(), style: TextStyle(
                             fontSize: 2 * SizeConfig.textMultiplier,
@@ -82,7 +92,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               child: TabBarView(
                   controller: tabController,
                   children: <Widget>[
-                    ...DIFFERENT_JOUNEY_TYPES.map((type) => type.screen),
+                    ...DIFFERENT_JOUNEY_TYPES(user).map((type) => type.screen),
                   ]),
             ),
           )
@@ -92,9 +102,11 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         iconData: Icons.add,
         callback: () {
           showDialog(context: context, builder: (BuildContext context) {
-            return AddJourneyDialog(callback: () {
-
-            },);
+            return AddJourneyDialog(
+              callback: () {
+              },
+              relatedUser: user,
+            );
           });
         },
       ),
