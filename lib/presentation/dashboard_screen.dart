@@ -50,10 +50,22 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
             child: Row(
               children: <Widget>[
                 Spacer(),
-                IconButton(icon: Icon(Icons.more_vert, color: Colors.black,),
-                  onPressed: () {
-                    context.read<AuthentificationService>().signOut();
-                  },
+                Card(
+                  child: InkWell(
+                      splashColor: Colors.blue.withAlpha(30),
+                      onTap: () => context.read<AuthentificationService>().signOut(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Text("Logout", style: TextStyle(fontSize: 17.0),),
+                            SizedBox(width: 12.0,),
+                            Icon(Icons.logout),
+                            //Image.asset("assets/images/map_image.png", height: 30.0, width: 30.0,),
+                          ],
+                        ),
+                      )
+                  ),
                 ),
               ],
             ),
@@ -61,7 +73,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
 
           Padding(
             padding: const EdgeInsets.only(left: 20.0, top: 40.0),
-            child: Text((LocalStorage.getItem(NAME) != null ? ("Hallo " + LocalStorage.getItem(NAME)! + "!") : ""), style: TextStyle(
+            child: Text((LocalStorage.getItem(NAME) != null ? ("Hallo " + LocalStorage.getItem(NAME)! + "!") : "MyAdventure"), style: TextStyle(
                 color: Colors.black,
                 fontFamily: 'Nunito-Regular',
                 fontSize: 4.5 * SizeConfig.textMultiplier

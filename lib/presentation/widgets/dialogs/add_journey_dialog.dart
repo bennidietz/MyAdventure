@@ -9,6 +9,7 @@ import '../../../network/constants.dart';
 import '../data_loading_text.dart';
 import '../location_selector.dart';
 import '../show_snackbar.dart';
+import 'package:flutter/services.dart';
 
 class AddJourneyDialog extends StatefulWidget {
   AddJourneyDialog({Key? key, required this.callback, required this.relatedUser}) : super(key: key);
@@ -22,6 +23,16 @@ class AddJourneyDialog extends StatefulWidget {
 
 class _AddJourneyDialogState extends State<AddJourneyDialog> {
   String? latlngState;
+
+  final TextEditingController _imgController = TextEditingController();
+
+  String? imgUrl = "";
+
+  @override
+  void dispose() {
+    _imgController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +132,7 @@ class _AddJourneyDialogState extends State<AddJourneyDialog> {
                               SizedBox(width: defaultPadding / 2,),
                               Expanded(
                                 child: TextField(
+                                  controller: _imgController,
                                   decoration: InputDecoration(
                                     filled: true,
                                     hintText: "Link eines Titelbildes",
@@ -129,13 +141,26 @@ class _AddJourneyDialogState extends State<AddJourneyDialog> {
                                     journeyFormModel?.setState(
                                           (state) => state.setImageURL(imageUrl),
                                     );
+                                    imgUrl = imageUrl;
                                   },
                                 ),
                               ),
                               SizedBox(width: defaultPadding / 3,),
-                              Icon(
-                                Icons.paste,
-                                color: Colors.deepPurple,
+                              IconButton(
+                                icon: Icon(
+                                  Icons.paste,
+                                  color: Colors.deepPurple,
+                                ),
+                                onPressed: () async {
+                                  Clipboard.getData('text/plain')
+                                      .then((value) {
+                                        setState(() {
+                                          if (value?.text != null) {
+                                            _imgController.text = value!.text!;
+                                          }
+                                        });
+                                  });
+                                }
                               )
                             ],
                           )

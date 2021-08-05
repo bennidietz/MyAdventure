@@ -30,7 +30,11 @@ class _PlannedJourneyScreenState extends State<PlannedJourneyScreen> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<MyJourney>> snapshot) {
         return Scaffold(
           body: SingleChildScrollView(
-            child: (snapshot.data != null) ? Column(
+            child: (snapshot.data == null) ?
+            DataLoadingText(text: "Reisen werden geladen...") :
+            (snapshot.data!.docs.length == 0) ?
+            DataLoadingText(text: "Erstelle jetzt deine Reise.") :
+            Column(
               children: [
                 SizedBox(height: defaultPadding,),
                 ...snapshot.data!.docs.map((journey) =>
@@ -54,7 +58,7 @@ class _PlannedJourneyScreenState extends State<PlannedJourneyScreen> {
                     )
                 ),
               ],
-            ) : DataLoadingText(text: "Daten werden geladen..."),
+            ),
           ),
         );
       }
