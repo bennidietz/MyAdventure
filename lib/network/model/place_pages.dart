@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music_player_app/network/model/journey.dart';
+import 'package:flutter_music_player_app/presentation/miniview/geocoder_view.dart';
 import 'package:flutter_music_player_app/presentation/miniview/mini_map.dart';
 import 'package:flutter_music_player_app/presentation/subscreen/dream_travels_list.dart';
 import 'package:flutter_music_player_app/presentation/subscreen/ideas_list.dart';
@@ -32,7 +33,7 @@ List<TabLayout> SELECT_LOCATION_PAGES(Function(LatLng) latlngCallback) => [
     height: 100,
     latlngCallback: latlngCallback,
   ), title: "Karte"),
-  TabLayout(screen: Text("Hallo"), title: "Adresse"),
+  TabLayout(screen: GeocoderView(latlngCallback: latlngCallback,), title: "Adresse"),
 ];
 
 List<TabLayout> DIFFERENT_JOUNEY_TYPES(User user) => [
