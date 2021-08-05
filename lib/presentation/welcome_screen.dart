@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music_player_app/network/constants.dart';
+import 'package:flutter_music_player_app/presentation/widgets/show_snackbar.dart';
 import 'package:flutter_music_player_app/router/router_constants.dart';
 import 'package:flutter_music_player_app/services/authentification_service.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,7 @@ class WelcomeScreen extends StatelessWidget {
                      context.read<AuthentificationService>().signIn(
                        emailController.text.trim(),
                        passwordController.text.trim(),
-                     );
+                     ).then((value) => showSnackbar(context: context, message: value));
                    },
                    child: Padding(
                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
