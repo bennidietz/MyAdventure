@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'model/journey.dart';
@@ -15,6 +16,11 @@ List<MyJourney> dreams = [
   MyJourney(id: "1", title: "Budapest",description: "Traumhafte Stadt",image_url: "assets/images/palm_tree.jpeg",latitude: 14.655971, longitude: -61.024770),
 ];
 
+User? currentUser;
+
+setUser(User? user) {
+  currentUser = user;
+}
 
 QuerySnapshot<MyPlace>? GLOBAL_PLACES;
 

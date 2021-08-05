@@ -20,8 +20,15 @@ class WelcomeScreen extends StatelessWidget {
         .listen((User? user) {
       if (user == null) {
         print('User is currently signed out!');
+        if (currentUser != null) {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          //Navigator.pushReplacementNamed(context, welcomeRoute);
+        }
+        currentUser = null;
       } else {
+        print('User with email ${user.email} is signed in!');
         Navigator.pushNamed(context, homeRoute, arguments: user);
+        currentUser = user;
       }
     });
     return Scaffold(
@@ -30,41 +37,48 @@ class WelcomeScreen extends StatelessWidget {
         title: Text("Welcome Screen"),
       ),
       body: Center(
-        child: Column(
-           mainAxisAlignment: MainAxisAlignment.start,
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: [
-             SizedBox(height: defaultPadding * 5,),
-             TextField(
-               controller: emailController,
-               decoration: InputDecoration(
-                 labelText: "Email",
-               ),
-             ),
-             TextField(
-               controller: passwordController,
-               decoration: InputDecoration(
-                 labelText: "Password",
-               ),
-             ),
-             Center(
-               child: ElevatedButton(
-                 onPressed: () {
-                   // LocalStorage.setItem(NAME, _deadlineController.text).then((value) => {
-                   //    Navigator.pushNamed(context, homeRoute)
-                   // });
-                   context.read<AuthentificationService>().signIn(
-                     emailController.text.trim(),
-                     passwordController.text.trim(),
-                   );
-                 },
-                 child: Padding(
-                   padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-                   child: Text('Lass uns starten!'),
+        child: Padding(
+          padding: EdgeInsets.all(defaultPadding),
+          child: Column(
+             mainAxisAlignment: MainAxisAlignment.start,
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               SizedBox(height: defaultPadding * 5,),
+               TextField(
+                 controller: emailController,
+                 decoration: InputDecoration(
+                   labelText: "Email",
                  ),
                ),
-             )
-           ],
+               TextField(
+                 controller: passwordController,
+                 decoration: InputDecoration(
+                   labelText: "Password",
+                 ),
+                 obscureText: true,
+                 enableSuggestions: false,
+                 autocorrect: false,
+               ),
+               SizedBox(height: defaultPadding * 2,),
+               Center(
+                 child: ElevatedButton(
+                   onPressed: () {
+                     // LocalStorage.setItem(NAME, _deadlineController.text).then((value) => {
+                     //    Navigator.pushNamed(context, homeRoute)
+                     // });
+                     context.read<AuthentificationService>().signIn(
+                       emailController.text.trim(),
+                       passwordController.text.trim(),
+                     );
+                   },
+                   child: Padding(
+                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                     child: Text('Lass uns starten!'),
+                   ),
+                 ),
+               )
+             ],
+          ),
         ),
       ),
     );

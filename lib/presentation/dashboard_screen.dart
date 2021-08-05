@@ -31,10 +31,15 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     tabController = TabController(length: 2, vsync: this);
   }
 
+  late User user;
+
   @override
   Widget build(BuildContext context) {
-
-    final user = ModalRoute.of(context)!.settings.arguments as User;
+    try {
+      user = ModalRoute.of(context)!.settings.arguments as User;
+    } on Exception catch (e) {
+      Navigator.pop(context);
+    }
 
     return Scaffold(
       body: Column(
